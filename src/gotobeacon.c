@@ -187,10 +187,25 @@ task main()
 			{
 				// stop both drive moters
 			}
-			current_state == TURN_OFF_RED_BEACON;
+			current_state = TURN_OFF_RED_BEACON;
 		}
 		else if (current_state == TURN_OFF_RED_BEACON)
 		{
+			// while PD_sum is high try to turn off beacon
+			while (PD_sum is high){
+				// try to turn off
+
+				// if doesnt turn off switch back to FIND_RED_BEACON to realign and retry
+
+			}
+
+			// once PD_sum is low back away from beacon
+			if (PD_sum is low) {
+				// back away
+
+				current_state = GO_TO_GREEN_BEACON
+				
+			}
 		}
 		else if (current_state == GO_TO_GREEN_BEACON)
 		{
