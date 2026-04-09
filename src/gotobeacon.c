@@ -14,6 +14,8 @@ int PD0, PD1, PD2, PD3, PD4, PD5, PD6, PD7, PD_sum;
 // initialize max values
 int max_val, max_no = 0;
 
+int dgtlLimitSwitch = dgtl5;
+
 /*The accumulator accumulates(or integrates) the rectified signal over a period of time (set by the expose and read)
 The accumulated voltage read by SensorValue[analog1](an analog voltage) is read by the controller.
 The expose_time period essentially set the ?gain? or ?sensitivity? of the overall circuit.*/
@@ -152,10 +154,8 @@ task main(){
 			ReadPD();
 			Find_max();
 			Move();
-
-			lmtSwitch = SensorValue(dgtlLmtSwitch);
-
-			while (lmtSwitch == 1) {
+			
+			if (SensorValue(dgtlLmtSwitch) == 1) {
 				
 			motor[port1] = 0;
 			motor[port10] = 0;
@@ -173,9 +173,7 @@ task main(){
 			Find_max();
 			Move();
 
-			lmtSwitch = SensorValue(dgtlLmtSwitch);
-
-			if (lmtSwitch == 1) {
+			if (SensorValue(dgtlLmtSwitch) == 1) {
 				
 			motor[port1] = 0;
 			motor[port10] = 0;
