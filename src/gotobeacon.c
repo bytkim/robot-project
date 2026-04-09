@@ -264,6 +264,9 @@ task main()
 			stop();
 			motor[port1] = -slow_speed;
 			motor[port10] = -slow_speed;
+			delay(3000);
+			motor[port1] = 0;
+			motor[port10] = 0;
 			// implement exit_arena 
 			current_state = END;
 		}
