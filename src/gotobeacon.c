@@ -149,6 +149,18 @@ task main(){
 	Robot_state current_state = FIND_RED_BEACON;
 
 	if (current_state = FIND_RED_BEACON) {
+		ReadPD();
+		Find_max();
+		Move();
+
+		lmtSwitch = SensorValue(dgtlLmtSwitch);
+
+		if (lmtSwitch is pressed) {
+			// stop both drive moters
+
+			
+		}
+		current_state 
 
 	} else if (current_state = TURN_OFF_RED_BEACON) {
 
@@ -157,7 +169,7 @@ task main(){
 	} else if (current_state = CAPTURE_GREEN_BEACON) {
 
 	} else if (current_state = EXIT_ARENA) {
-		
+
 	}
 
 
