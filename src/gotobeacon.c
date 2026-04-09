@@ -203,6 +203,8 @@ task main()
 					motor[port1] = -slow_speed;
 					motor[port10] = -slow_speed;
 					delay(1000);
+					ReadPD();
+					Find_max();
 					Move();
 				}
 			}
@@ -216,14 +218,30 @@ task main()
 		}
 		else if (current_state == CAPTURE_GREEN_BEACON)
 		{
-
+			//assume robot in front of green beacon
+			while (PD_sum >= stop_level)
+			{
+				// try to turn off
+				arm_speed = 10;
+				motor[port9] = arm_speed;
+				if (PD_sum >= stop_level)
+				{
+					motor[port1] = -slow_speed;
+					motor[port10] = -slow_speed;
+					delay(1000);
+					ReadPD();
+					Find_max();
+					Move(); // if beacon not turned off go back and move back
+				}
+			}
 		}
 		else if (current_state == EXIT_ARENA)
 		{
+
 		}
 		else if (current_state == END)
 		{
-			
+
 		}
 	}
 }
