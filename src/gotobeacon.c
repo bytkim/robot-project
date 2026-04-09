@@ -148,36 +148,48 @@ task main(){
 
 	Robot_state current_state = FIND_RED_BEACON;
 	while (current_state != END){
-		if (current_state = FIND_RED_BEACON) {
+		if (current_state == FIND_RED_BEACON) {
 			ReadPD();
 			Find_max();
 			Move();
 
 			lmtSwitch = SensorValue(dgtlLmtSwitch);
 
-			if (lmtSwitch is pressed) {
-				// stop both drive moters
+			if (lmtSwitch == 1) {
+				
+			motor[port1] = 0;
+			motor[port10] = 0;
+			
 			}
-			current_state == TURN_OFF_RED_BEACON;
+			current_state = TURN_OFF_RED_BEACON;
+			freq = 1;
 
 		} else if (current_state == TURN_OFF_RED_BEACON) {
 
 
 		} else if (current_state == GO_TO_GREEN_BEACON) {
+		
+		if (current_state == GO_TO_GREEN_BEACON) {
+			ReadPD();
+			Find_max();
+			Move();
 
+			lmtSwitch = SensorValue(dgtlLmtSwitch);
+
+			if (lmtSwitch == 1) {
+				
+			motor[port1] = 0;
+			motor[port10] = 0;
+			
+			}
+			current_state = CAPTURE_GREEN_BEACON;
 
 		} else if (current_state == CAPTURE_GREEN_BEACON) {
 
-
+			current_state = EXIT_ARENA;
+		
 		} else if (current_state == EXIT_ARENA) {
 
-			
-		} else if (current_state == END) {
-
+		current_state = END;
 	}
-	}
-
-
-
-
 }
