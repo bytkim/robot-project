@@ -162,7 +162,7 @@ task main(){
 			
 			}
 			current_state = TURN_OFF_RED_BEACON;
-			freq = 1;
+			SensorValue[digital10] = 1;
 
 		} else if (current_state == TURN_OFF_RED_BEACON) {
 
