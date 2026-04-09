@@ -147,32 +147,36 @@ task main(){
 	typedef enum { FIND_RED_BEACON, TURN_OFF_RED_BEACON, GO_TO_GREEN_BEACON, CAPTURE_GREEN_BEACON, EXIT_ARENA, END } Robot_state;
 
 	Robot_state current_state = FIND_RED_BEACON;
-	while (current_state != END)
-	if (current_state = FIND_RED_BEACON) {
-		ReadPD();
-		Find_max();
-		Move();
+	while (current_state != END){
+		if (current_state = FIND_RED_BEACON) {
+			ReadPD();
+			Find_max();
+			Move();
 
-		lmtSwitch = SensorValue(dgtlLmtSwitch);
+			lmtSwitch = SensorValue(dgtlLmtSwitch);
 
-		if (lmtSwitch is pressed) {
-			// stop both drive moters
+			if (lmtSwitch is pressed) {
+				// stop both drive moters
+			}
+			current_state == TURN_OFF_RED_BEACON;
+
+		} else if (current_state == TURN_OFF_RED_BEACON) {
+
+
+		} else if (current_state == GO_TO_GREEN_BEACON) {
+
+
+		} else if (current_state == CAPTURE_GREEN_BEACON) {
+
+
+		} else if (current_state == EXIT_ARENA) {
 
 			
-		}
-		current_state 
-
-	} else if (current_state = TURN_OFF_RED_BEACON) {
-
-	} else if (current_state = GO_TO_GREEN_BEACON) {
-
-	} else if (current_state = CAPTURE_GREEN_BEACON) {
-
-	} else if (current_state = EXIT_ARENA) {
-
-	} else if (current_state = END) {
+		} else if (current_state == END) {
 
 	}
+	}
+
 
 
 
