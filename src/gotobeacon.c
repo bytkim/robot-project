@@ -229,7 +229,6 @@ task main()
 
 		} else if (current_state == CAPTURE_GREEN_BEACON) {
 			// try to turn off green beacon with arm
-			ReadPD();
 			arm_speed = 10;
 			motor[port9] = arm_speed;
 			delay(1000);
@@ -256,6 +255,8 @@ task main()
 			}
 
 		} else if (current_state == EXIT_ARENA) {
+
+			// implement exit_arena 
 			current_state = END;
 		}
 	}
