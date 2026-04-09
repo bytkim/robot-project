@@ -144,10 +144,10 @@ task main(){
 
 	// state machine 
 
-	typedef enum { FIND_RED_BEACON, TURN_OFF_RED_BEACON, GO_TO_GREEN_BEACON, CAPTURE_GREEN_BEACON, EXIT_ARENA } Robot_state;
+	typedef enum { FIND_RED_BEACON, TURN_OFF_RED_BEACON, GO_TO_GREEN_BEACON, CAPTURE_GREEN_BEACON, EXIT_ARENA, END } Robot_state;
 
 	Robot_state current_state = FIND_RED_BEACON;
-
+	while (current_state != END)
 	if (current_state = FIND_RED_BEACON) {
 		ReadPD();
 		Find_max();
@@ -169,6 +169,8 @@ task main(){
 	} else if (current_state = CAPTURE_GREEN_BEACON) {
 
 	} else if (current_state = EXIT_ARENA) {
+
+	} else if (current_state = END) {
 
 	}
 
