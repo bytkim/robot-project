@@ -2,6 +2,7 @@
 #pragma config(Sensor, dgtl10, digital10, sensorDigitalOut)
 #pragma config(Sensor, dgtl11, digital11, sensorDigitalOut)
 #pragma config(Sensor, dgtl12, digital12, sensorDigitalOut)
+#pragma config(Sesnor, dgtll8, sensorPort, sensorPort)
 #pragma config(Motor, port1, rightMotor, tmotorVex393_HBridge, openLoop, reversed)
 #pragma config(Motor, port10, leftMotor, tmotorVex393_HBridge, openLoop, reversed)
 #pragma config(Motor, port9, clawMotor, tmotorVex393_HBridge, openLoop, reversed) // NOTE: ARM CONFIG (UNVERIFIED)
@@ -236,13 +237,13 @@ task main()
 			ReadPD();
 			if (PD_sum < stop_level) {
 				// beacon is off — back away
+				motor[port9] = 10;
 				motor[port9] = 0;
 				motor[port1] = -slow_speed;
 				motor[port10] = -slow_speed;
 				delay(500);
 				motor[port1] = 0;
 				motor[port10] = 0;
-				current_state = EXIT_ARENA;
 			} else {
 				// still on — back away and retry
 				motor[port9] = -arm_speed;
@@ -253,9 +254,16 @@ task main()
 				motor[port10] = 0;
 				current_state = GO_TO_GREEN_BEACON;
 			}
+			current_state = EXIT_ARENA;
 
 		} else if (current_state == EXIT_ARENA) {
-
+			int max_distance = 0;
+			motor[port1] = spin_speed;
+			motor[port10] = -spin_speed;
+			untilSonarGreaterThan(100, dgtl8);
+			stop();
+			motor[port1] = -slow_speed;
+			motor[port10] = -slow_speed;
 			// implement exit_arena 
 			current_state = END;
 		}
