@@ -16,7 +16,7 @@ int freq, ambient_level, slow_level, stop_level, expose_time, steer_sensitivity,
 // initialize PD values for the global uses - will be modified at the appropriate timing in ReadPD function.
 int PD0, PD1, PD2, PD3, PD4, PD5, PD6, PD7, PD_sum;
 // initialize max values
-int max_val, max_no = 0;
+int max_val, max_no, elapsedMs = 0;
 
 /*The accumulator accumulates(or integrates) the rectified signal over a period of time (set by the expose and read)
 The accumulated voltage read by SensorValue[analog1](an analog voltage) is read by the controller.
@@ -193,31 +193,57 @@ task main()
 
 		} else if (current_state == TURN_OFF_RED_BEACON) {
 			// try to turn off red beacon with arm
+
+			untilTouch(testButton);
+			clearTimer(T1);
 			ReadPD();
 			arm_speed = 10;
 			motor[port9] = arm_speed;
-			delay(1000);
+
+			untilTouch(testButton);
+			elapsedMs = (int)time1[T1];
+  			datalogDataGroupStart();
+  			datalogAddValue(0, elapsedMs); // save timer
+  			datalogDataGroupEnd();
 
 			ReadPD();
 			if (PD_sum < stop_level) {
 				// beacon is off — back away and switch to green
+			
+				untilTouch(testButton);
+				clearTimer(T1);
 				motor[port9] = 0;
 				motor[port1] = -slow_speed;
 				motor[port10] = -slow_speed;
-				delay(500);
+
+				untilTouch(testButton);
+				elapsedMs = (int)time1[T1];
 				motor[port1] = 0;
 				motor[port10] = 0;
 				SensorValue[digital10] = 1; // switch to green frequency
+				datalogDataGroupStart();
+  				datalogAddValue(0, elapsedMs); // save timer
+  				datalogDataGroupEnd();
+
 				untilTouch(testButton);
 				current_state = GO_TO_GREEN_BEACON;
 			} else {
-				// still on — back away and retry
+
+  				untilTouch(testButton);
+  				clearTimer(T1);
 				motor[port9] = -arm_speed;
 				motor[port1] = -slow_speed;
 				motor[port10] = -slow_speed;
-				delay(1000);
+
+  				untilTouch(testButton);
+  				elapsedMs = (int)time1[T1];
+  				datalogDataGroupStart();
+  				datalogAddValue(0, elapsedMs);
+  				datalogDataGroupEnd();
+				// still on — back away and retry
 				motor[port1] = 0;
 				motor[port10] = 0;
+
 				untilTouch(testButton);
 				current_state = FIND_RED_BEACON;
 			}
@@ -236,28 +262,53 @@ task main()
 
 		} else if (current_state == CAPTURE_GREEN_BEACON) {
 			// try to turn off green beacon with arm
+
+			untilTouch(testButton);
+  			clearTimer(T1);
 			arm_speed = 10;
 			motor[port9] = arm_speed;
-			delay(1000);
+
+  			untilTouch(testButton);
+  			elapsedMs = (int)time1[T1];
+			datalogDataGroupStart();
+  			datalogAddValue(0, elapsedMs);
+  			datalogDataGroupEnd();
 
 			ReadPD();
 			if (PD_sum < stop_level) {
 				// beacon is off — back away
+
+				untilTouch(testButton);
+				clearTimer(T1);
 				motor[port9] = 10;
 				motor[port9] = 0;
 				motor[port1] = -slow_speed;
 				motor[port10] = -slow_speed;
-				delay(500);
+
+				untilTouch(testButton);
+				elapsedMs = (int)time1[T1];
 				motor[port1] = 0;
 				motor[port10] = 0;
+				datalogDataGroupStart();
+  				datalogAddValue(0, elapsedMs); // save timer
+  				datalogDataGroupEnd();
 			} else {
 				// still on — back away and retry
+
+				untilTouch(testButton);
+				clearTimer(T1);
 				motor[port9] = -arm_speed;
 				motor[port1] = -slow_speed;
 				motor[port10] = -slow_speed;
-				delay(1000);
+
+				untilTouch(testButton);
+				elapsedMs = (int)time1[T1];
 				motor[port1] = 0;
 				motor[port10] = 0;
+				datalogDataGroupStart();
+  				datalogAddValue(0, elapsedMs); // save timer
+  				datalogDataGroupEnd();
+
 				untilTouch(testButton);
 				current_state = GO_TO_GREEN_BEACON;
 			}
@@ -270,11 +321,20 @@ task main()
 			motor[port10] = -spin_speed;
 			untilSonarGreaterThan(100, dgtl8);
 			stop();
+			
+			untilTouch(testButton);
+			clearTimer(T1);
 			motor[port1] = -slow_speed;
 			motor[port10] = -slow_speed;
-			delay(3000);
+			
+			untilTouch(testButton);
+			elapsedMs = (int)time1[T1];
 			motor[port1] = 0;
 			motor[port10] = 0;
+			datalogDataGroupStart();
+  			datalogAddValue(0, elapsedMs); // save timer
+  			datalogDataGroupEnd();
+
 			// implement exit_arena
 			untilTouch(testButton);
 			current_state = END;
