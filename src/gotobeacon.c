@@ -196,7 +196,6 @@ task main()
 
 			untilTouch(testButton);
 			clearTimer(T1);
-			ReadPD();
 			arm_speed = 10;
 			motor[port9] = arm_speed;
 
@@ -205,8 +204,8 @@ task main()
   			datalogDataGroupStart();
   			datalogAddValue(0, elapsedMs); // save timer
   			datalogDataGroupEnd();
-
 			ReadPD();
+			
 			if (PD_sum < stop_level) {
 				// beacon is off — back away and switch to green
 			
@@ -280,7 +279,6 @@ task main()
 
 				untilTouch(testButton);
 				clearTimer(T1);
-				motor[port9] = 10;
 				motor[port9] = 0;
 				motor[port1] = -slow_speed;
 				motor[port10] = -slow_speed;
