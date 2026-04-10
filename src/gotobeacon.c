@@ -175,10 +175,10 @@ task main()
 		EXIT_ARENA,
 		END
 	} Robot_state;
-
+	
+	untilTouch(testButton);
 	Robot_state current_state = FIND_RED_BEACON;
 	while (current_state != END) {
-			untilTouch(testButton);
 		if (current_state == FIND_RED_BEACON) {
 			ReadPD();
 			Find_max();
