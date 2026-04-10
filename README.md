@@ -1,1 +1,1 @@
-Test button with stopwatch/time data saver
+Test button dgtl4 with stopwatch/time data saver
