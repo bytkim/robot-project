@@ -2,7 +2,7 @@
 #pragma config(Sensor, dgtl10, digital10, sensorDigitalOut)
 #pragma config(Sensor, dgtl11, digital11, sensorDigitalOut)
 #pragma config(Sensor, dgtl12, digital12, sensorDigitalOut)
-#pragma config(Sensor, dgtl8, digital8, sensorPort)
+#pragma config(Sensor, dgtl5, digital5, sensorPort)
 #pragma config(Motor, port1, rightMotor, tmotorVex393_HBridge, openLoop, reversed)
 #pragma config(Motor, port10, leftMotor, tmotorVex393_HBridge, openLoop, reversed)
 #pragma config(Motor, port9, clawMotor, tmotorVex393_HBridge, openLoop, reversed) // NOTE: ARM CONFIG (UNVERIFIED)
@@ -260,7 +260,7 @@ task main()
 			int max_distance = 0;
 			motor[port1] = spin_speed;
 			motor[port10] = -spin_speed;
-			untilSonarGreaterThan(100, dgtl8);
+			untilSonarGreaterThan(100, dgtl5);
 			stop();
 			motor[port1] = -slow_speed;
 			motor[port10] = -slow_speed;
