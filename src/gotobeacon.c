@@ -176,7 +176,6 @@ task main()
 		END
 	} Robot_state;
 	
-	untilTouch(testButton);
 	Robot_state current_state = FIND_RED_BEACON;
 	while (current_state != END) {
 		if (current_state == FIND_RED_BEACON) {
@@ -187,7 +186,6 @@ task main()
 			if (SensorValue[dgtlLimitSwitch] == 1) {
 				motor[port1] = 0;
 				motor[port10] = 0;
-				untilTouch(testButton);
 				current_state = TURN_OFF_RED_BEACON;
 			}
 
@@ -224,7 +222,6 @@ task main()
   				datalogAddValue(0, elapsedMs); // save timer
   				datalogDataGroupEnd();
 
-				untilTouch(testButton);
 				current_state = GO_TO_GREEN_BEACON;
 			} else {
 
@@ -243,7 +240,6 @@ task main()
 				motor[port1] = 0;
 				motor[port10] = 0;
 
-				untilTouch(testButton);
 				current_state = FIND_RED_BEACON;
 			}
 
@@ -255,7 +251,6 @@ task main()
 			if (SensorValue[dgtlLimitSwitch] == 1) {
 				motor[port1] = 0;
 				motor[port10] = 0;
-				untilTouch(testButton);
 				current_state = CAPTURE_GREEN_BEACON;
 			}
 
@@ -307,10 +302,8 @@ task main()
   				datalogAddValue(0, elapsedMs); // save timer
   				datalogDataGroupEnd();
 
-				untilTouch(testButton);
 				current_state = GO_TO_GREEN_BEACON;
 			}
-			untilTouch(testButton);
 			current_state = EXIT_ARENA;
 
 		} else if (current_state == EXIT_ARENA) {
@@ -334,7 +327,6 @@ task main()
   			datalogDataGroupEnd();
 
 			// implement exit_arena
-			untilTouch(testButton);
 			current_state = END;
 		}
 	}
