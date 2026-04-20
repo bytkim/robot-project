@@ -170,31 +170,19 @@ task main() {
 	while (current_state == TURN_OFF_RED_BEACON) {
 
 		ReadPD();
-		arm_speed = 10;
+		arm_speed = 127;
 		motor[port9] = arm_speed;
 		delay(1000);
-
-		ReadPD();
-		if (PD_sum < stop_level) {
+		
 			// beacon is off  back away and switch to green
 			motor[port9] = 0;
-			motor[port1] = -slow_speed;
-			motor[port10] = -slow_speed;
-			delay(500);
+			motor[port1] = -forward_speed;
+			motor[port10] = -forward_speed;
+			delay(3000);
 			motor[port1] = 0;
 			motor[port10] = 0;
 			SensorValue[digital10] = 1; // switch to green frequency
 			current_state = GO_TO_GREEN_BEACON;
-		}
-		else {
-			// still on  back away and retry
-			motor[port9] = -arm_speed;
-			motor[port1] = -slow_speed;
-			motor[port10] = -slow_speed;
-			delay(1000);
-			motor[port1] = 0;
-			motor[port10] = 0;
-			current_state = FIND_RED_BEACON;
 		}
 	}
 
@@ -212,7 +200,7 @@ task main() {
 
 	while (current_state == CAPTURE_GREEN_BEACON) {
 		
-		arm_speed = 10;
+		arm_speed = 127;
 		motor[port9] = arm_speed;
 		delay(1000);
 
@@ -242,7 +230,7 @@ task main() {
 	}
 
 	while(current_state == EXIT_ARENA) {
-		arm_speed = 10;
+		arm_speed = 127;
 		motor[port9] = arm_speed;
 		delay(1000);
 
