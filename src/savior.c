@@ -19,6 +19,8 @@ int PD0, PD1, PD2, PD3, PD4, PD5, PD6, PD7, PD_sum;
 // initialize max values
 int max_val, max_no = 0;
 
+int max_sonar_distance = 0;
+
 /*The accumulator accumulates(or integrates) the rectified signal over a period of time (set by the expose and read)
 The accumulated voltage read by SensorValue[analog1](an analog voltage) is read by the controller.
 The expose_time period essentially set the ?gain? or ?sensitivity? of the overall circuit.*/
@@ -137,7 +139,7 @@ The GOBEACON main program essentially sets up all the configuration variables an
 execute the three routines: Read_PD, find_max, and move.*/
 task main() {
 	freq = 0; // 0 = 1khz (red) 1 = 10khz (green)
-	ambient_level = 300; // used in 'move'
+	ambient_level = 200; // used in 'move'
 	slow_level = 5000;// used in move
 	stop_level = 6000;//used in move
 	expose_time = 5; // expose time was changed from 3ms to 5ms (3ms in easyC -> 5ms in RobotC)
@@ -184,13 +186,13 @@ task main() {
 		delay(1000);
 
 		ReadPD();
-		delay(1000);
+		delay(500);
 		if (PD_sum < stop_level) {
 			// beacon is off ? back away and switch to green
 			motor[port9] = 0;
 			motor[port1] = -forward_speed;
 			motor[port10] = forward_speed;
-			delay(2000);
+			delay(1500);
 			motor[port1] = 0;
 			motor[port10] = 0;
 			SensorValue[digital10] = 1; // switch to green frequency
@@ -234,19 +236,44 @@ task main() {
 	}
 
 	while(current_state == EXIT_ARENA) {
-
-			motor[port1] = spin_speed;
-			motor[port10] = spin_speed;
-			untilSonarGreaterThan(457, dgtl4);
+			
+			// initial spin max_sonar distance
+			motor[port1] = spin_speed * 2;
+			motor[port10] = spin_speed * 2;
+			
+			for(int i = 0; i < 100; i++){
+				if(max_sonar_distance < SensorValue[sonarSensor]){
+					max_sonar_distance = SensorValue[sonarSensor];
+				}
+				delay(50);
+			}
+			
+			// final spin to rotate until you match max sonar distance 
+			
+			while (SensorValue[sonarSensor] < max_sonar_distance){
+				
+				continue;
+			}
 			stop();
+			
 			motor[port1] = -forward_speed;
 			motor[port10] = forward_speed;
-			delay(3000);
+			delay(10000);
 			motor[port1] = 0;
 			motor[port10] = 0;
 			// implement exit_arena
 			current_state = END;
-
 	}
+	
+	while (current_state == END){
+// celebration
+	
+	motor[port1] = spin_speed;
+	motor[port10] = spin_speed;
+	
+	
+}
+
+	
 
 }
