@@ -237,7 +237,7 @@ task main() {
 
 			motor[port1] = 127;
 			motor[port10] = 127;
-			untilSonarGreaterThan(100, dgtl4);
+			untilSonarGreaterThan(1000, dgtl4);
 			motor[port1] = -forward_speed;
 			motor[port10] = forward_speed;
 			delay(3000);
