@@ -137,7 +137,7 @@ The GOBEACON main program essentially sets up all the configuration variables an
 execute the three routines: Read_PD, find_max, and move.*/
 task main() {
 	freq = 0; // 0 = 1khz (red) 1 = 10khz (green)
-	ambient_level = 200; // used in 'move'
+	ambient_level = 300; // used in 'move'
 	slow_level = 5000;// used in move
 	stop_level = 6000;//used in move
 	expose_time = 5; // expose time was changed from 3ms to 5ms (3ms in easyC -> 5ms in RobotC)
@@ -235,9 +235,10 @@ task main() {
 
 	while(current_state == EXIT_ARENA) {
 
-			motor[port1] = 127;
-			motor[port10] = 127;
-			untilSonarGreaterThan(1000, dgtl4);
+			motor[port1] = spin_speed;
+			motor[port10] = spin_speed;
+			untilSonarGreaterThan(457, dgtl4);
+			stop();
 			motor[port1] = -forward_speed;
 			motor[port10] = forward_speed;
 			delay(3000);
