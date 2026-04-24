@@ -300,10 +300,16 @@ task main() {
 			}
 			stop();
 
-			
+			untilTouch(testButton);
+			clearTimer(T1);			
 			motor[port1] = -forward_speed;
 			motor[port10] = forward_speed;
-			delay(10000);
+			
+			untilTouch(testButton);
+			elapsedMs = (int)time1[T1];
+			datalogDataGroupStart();
+			datalogAddValue(0, elapsedMs);
+			datalogDataGroupEnd();
 			motor[port1] = 0;
 			motor[port10] = 0;
 			// implement exit_arena
