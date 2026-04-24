@@ -196,7 +196,7 @@ task main() {
 		datalogDataGroupEnd();
 
 		ReadPD();
-		delay(1000);
+		delay(500);
 		if (PD_sum < stop_level) {
 			clearTimer(T1);
 			motor[port9] = 0;
