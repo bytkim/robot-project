@@ -139,12 +139,12 @@ The GOBEACON main program essentially sets up all the configuration variables an
 execute the three routines: Read_PD, find_max, and move.*/
 task main() {
 	freq = 0; // 0 = 1khz (red) 1 = 10khz (green)
-	ambient_level = 200; // used in 'move'
+	ambient_level = 235; // used in 'move'
 	slow_level = 5000;// used in move
 	stop_level = 6000;//used in move
 	expose_time = 5; // expose time was changed from 3ms to 5ms (3ms in easyC -> 5ms in RobotC)
-	steer_sensitivity = 20;//used in move
-	forward_speed = 35;//forward speed , used in move
+	steer_sensitivity = 25;//used in move
+	forward_speed = 80;//forward speed , used in move
 	slow_speed = 25;//slow speed , used in move
 	spin_speed = 50;//spin speed (for searching mode),used in move
 	SensorValue[digital10] = freq;// turn to 1KHz(red beacon)
@@ -176,10 +176,10 @@ task main() {
 	while (current_state == TURN_OFF_RED_BEACON) {
 
 		ReadPD();
-		arm_speed = 127;
+		arm_speed = 80;
 		motor[port9] = -arm_speed;
 		motor[port8] = arm_speed;
-		delay(1000);
+		delay(500);
 
 		motor[port9] = arm_speed;
 		motor[port8] = -arm_speed;
@@ -192,7 +192,7 @@ task main() {
 			motor[port9] = 0;
 			motor[port1] = -forward_speed;
 			motor[port10] = forward_speed;
-			delay(1500);
+			delay(750);
 			motor[port1] = 0;
 			motor[port10] = 0;
 			SensorValue[digital10] = 1; // switch to green frequency
@@ -204,7 +204,7 @@ task main() {
 			delay(500);
 			motor[port1] = slow_speed;
 			motor[port10] = -slow_speed;
-			delay(1000);
+			delay(750);
 			motor[port1] = 0;
 			motor[port10] = 0;
 			current_state = TURN_OFF_RED_BEACON;
@@ -229,51 +229,43 @@ task main() {
 		motor[port9] = -arm_speed;
 		motor[port8] = arm_speed;
 
-		delay(1000);
+		delay(500);
 
 		current_state = EXIT_ARENA;
 
 	}
 
 	while(current_state == EXIT_ARENA) {
-			
+
 			// initial spin max_sonar distance
-			motor[port1] = spin_speed * 2;
-			motor[port10] = spin_speed * 2;
-			
-			for(int i = 0; i < 100; i++){
-				if(max_sonar_distance < SensorValue[sonarSensor]){
-					max_sonar_distance = SensorValue[sonarSensor];
-				}
-				delay(50);
-			}
-			
-			// final spin to rotate until you match max sonar distance 
-			
-			while (SensorValue[sonarSensor] < max_sonar_distance){
-				
-				continue;
-			}
-			stop();
-			
+
+			while(true){
+
+			if(SensorValue[sonarSensor] > 40 || SensorValue[sonarSensor] == -1){
 			motor[port1] = -forward_speed;
 			motor[port10] = forward_speed;
-			delay(10000);
+		}
+		else{
+			motor[port1] = -spin_speed;
+			motor[port10] = -spin_speed;
+		}
+		}
+			stop();
 			motor[port1] = 0;
 			motor[port10] = 0;
 			// implement exit_arena
 			current_state = END;
 	}
-	
+
 	while (current_state == END){
 // celebration
-	
+
 	motor[port1] = spin_speed;
 	motor[port10] = spin_speed;
-	
-	
+
+
 }
 
-	
+
 
 }
